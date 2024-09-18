@@ -4,18 +4,18 @@ from dotenv import load_dotenv
 
 load_dotenv("messages/secrets.env")
 
-my_login = os.getenv('LOGIN')
+my_email = os.getenv('LOGIN')
 my_password = os.getenv('PASSWORD')
 my_name = os.getenv('NAME')
 
 server = smtplib.SMTP_SSL("smtp.yandex.ru:465")
-server.login(my_login, my_password)
+server.login(my_email, my_password)
 
 
-address_from = my_login
-address_to = 'aza2004mat001@gmail.com'
-my_name = my_name
-friend_name = "Wan Sinchen"
+sender_email = my_email
+sender_name = my_name
+recipient_email = 'aza2004mat001@gmail.com'
+recipient_name= "Wan Sinchen"
 website = "https://dvmn.org/referrals/tXhgJQxGiVJTQnmjihFw1AIww9SssU7qY3anusGW/"
 letter = """\
 From: {ad_from}
@@ -38,12 +38,12 @@ Content-Type: text/plain; charset="UTF-8";
 Все проекты — они же решение наших задачек — можно разместить на твоём GitHub. Работодатели такое оценят.
 
 Регистрируйся → {website}
-На курсы, которые еще не вышли, можно подписаться и получить уведомление о релизе сразу на имейл.""".format(ad_from=address_from, ad_to=address_to, f_name=friend_name, my_name=my_name, website=website)
+На курсы, которые еще не вышли, можно подписаться и получить уведомление о релизе сразу на имейл.""".format(ad_from=sender_email, ad_to=recipient_email, f_name=recipient_name, my_name=sender_email, website=website)
 
 letter = letter.encode("UTF-8")
 
 try:
-    server.sendmail(my_login, 'aza2004mat001@gmail.com', letter)
+    server.sendmail(sender_email, recipient_email, letter)
     server.quit()
     print('sent')
 except Exception:
